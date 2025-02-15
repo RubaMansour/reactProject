@@ -1,0 +1,109 @@
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getBooks } from "../redux/future/booksSlice"; // تأكد من استيراد الدالة بشكل صحيح
+import { FaSearch, FaBookmark } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+const SearchPage = () => {
+    const MAX_BOOKS_COUNT = 12;
+    const searchTerm = useRef('');
+    const { isLoading, errorMsg, data } = useSelector((state) => state.books);
+    const dispatch = useDispatch();
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalBooks = data.totalItems || 0;
+    const totalPages = Math.ceil(totalBooks / MAX_BOOKS_COUNT);
+    const books = data.items || [];
+
+    const searchBooks = () => {
+        if (searchTerm.current.value) {
+            const startIndex = (currentPage - 1) * MAX_BOOKS_COUNT;
+            dispatch(getBooks({
+                searchTerm: searchTerm.current.value,
+                maxResults: MAX_BOOKS_COUNT,
+                startIndex,
+            }));
+        }
+    };
+
+    const handleSearch = (event) => {
+        event.preventDefault();
+        const term = searchTerm.current.value;
+        dispatch(getBooks({
+            searchTerm: term,
+            maxResults: 12,
+            startIndex: 0
+        }));
+    };
+
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage((prev) => prev - 1);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prev) => prev + 1);
+        }
+    };
+
+    return (
+        <div>
+            <header className="header">
+                <form className="search-form" onSubmit={handleSearch}>
+                    <input type="search" id="search-box" placeholder="Search here..." ref={searchTerm} />
+                    <label htmlFor="search-box" onClick={searchBooks}>
+                        <FaSearch />
+                    </label>
+                </form>
+            </header>
+
+            {isLoading && (<p>Loading...</p>)}
+            {errorMsg && (<p>{errorMsg}</p>)}
+
+            <div className="books-grid">
+                {books.map((book) => {
+                    const imageUrl = book.volumeInfo.imageLinks?.thumbnail;
+                    return (
+                        <div key={book.id} className="Look-card">
+                            {imageUrl ? (
+                                <Link to={`/book/${book.id}`}>
+                                    <img src={imageUrl} alt={book.volumeInfo.title} className="book-image" />
+                                </Link>
+                            ) : (
+                                <div>No Image Available</div>
+                            )}
+                            <h2 className="book-title">{book.volumeInfo.title}</h2>
+                            <button className="wishlist-button">
+                                <FaBookmark />
+                                Add To Wishlist
+                            </button>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {books.length > 0 && (
+                <div className="pagination-container">
+                    <span className="page-number">Page {currentPage}</span>
+                    <div className="navigation-button">
+                        <button
+                            onClick={handlePreviousClick}
+                            className={`Previous-button ${currentPage === 1 ? 'previous-disabled' : 'previous-enabled'}`}
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={handleNextClick}
+                            className={`next-button ${currentPage === totalPages ? 'next-disabled' : 'next-enabled'}`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default SearchPage;
