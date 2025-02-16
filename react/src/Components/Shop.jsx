@@ -12,12 +12,12 @@ const Shop = () => {
     const dispatch = useDispatch();
     const { isLoading, errorMsg, data } = useSelector((state) => state.books);
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState(""); // تمت إضافته هنا
+    const [selectedCategory, setSelectedCategory] = useState(""); 
     const totalBooks = data.totalItems || 0;
     const totalPages = Math.ceil(totalBooks / MAX_BOOKS_COUNT);
     const books = data.items || [];
 
-    // جلب الكتب عند البحث أو تغيير التصنيف
+    
     useEffect(() => {
         const startIndex = (currentPage - 1) * MAX_BOOKS_COUNT;
         dispatch(
@@ -30,7 +30,7 @@ const Shop = () => {
         );
     }, [currentPage, selectedCategory, dispatch]);
 
-    // البحث عند الضغط على زر البحث
+    
     const handleSearch = (event) => {
         event.preventDefault();
         setCurrentPage(1);
@@ -44,7 +44,7 @@ const Shop = () => {
         );
     };
 
-    // التنقل بين الصفحات
+   
     const handlePreviousClick = () => {
         if (currentPage > 1) setCurrentPage((prev) => prev - 1);
     };
@@ -53,7 +53,6 @@ const Shop = () => {
         if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
     };
 
-    // إضافة إلى المفضلة
     const addToWishlist = (book) => {
         dispatch(addFavorite(book));
     };
@@ -72,7 +71,7 @@ const Shop = () => {
                  </div>
             
 
-            {/* تصنيف الكتب */}
+          
             <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
 
             {isLoading && <p>Loading...</p>}
@@ -99,7 +98,7 @@ const Shop = () => {
                 })}
             </div>
 
-            {/* التصفح حسب الصفحات */}
+          
             {books.length > 0 && (
                 <div className="pagination-container">
                     <span className="page-number">Page {currentPage}</span>

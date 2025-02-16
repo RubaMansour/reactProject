@@ -1,14 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit'; // استخدام الدالة الصحيحة
-import booksReducer from '../future/booksSlice'; // التأكد من المسار الصحيح
+import { configureStore } from '@reduxjs/toolkit'; 
+import booksReducer from '../future/booksSlice'; 
 
 const store = configureStore({
     reducer: {
-        books: booksReducer, // استخدام الـ reducer الخاص بالكتب
+        books: booksReducer, 
     },
 });
 
 store.subscribe(() => {
-    console.log('state', store.getState()); // متابعة التغييرات في الـ store
+    console.log('state', store.getState()); 
 });
 
 export default store;

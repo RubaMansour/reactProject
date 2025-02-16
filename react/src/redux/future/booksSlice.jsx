@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// جلب الكتب من API
+
 export const getBooks = createAsyncThunk(
     'books/get',
     async ({ searchTerm, maxResults, startIndex, category }) => {
@@ -46,7 +46,7 @@ const booksSlice = createSlice({
         builder.addCase(getBooks.fulfilled, (state, action) => {
             state.isLoading = false;
             state.data = {
-                items: action.payload.items || [], // تجنب `undefined`
+                items: action.payload.items || [], 
                 totalItems: action.payload.totalItems || 0,
             };
         });
@@ -57,7 +57,7 @@ const booksSlice = createSlice({
     },
 });
 
-// تصدير الأكشنات
+
 export const { addFavorite, removeFavorite, clearBooks } = booksSlice.actions;
 
 export default booksSlice.reducer;

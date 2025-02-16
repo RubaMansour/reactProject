@@ -1,11 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { FaHeart, FaUser, FaHome, FaList, FaTags, FaStore } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaHeart, FaUser, FaHome, FaList, FaTags, FaStore,FaSignOutAlt } from "react-icons/fa";
+import { auth } from './firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const favorites = useSelector((state) => state.books.favorites || []); // ✅ تأكد أن المتغير ليس undefined
+      const navigate = useNavigate();
+      const user = auth.currentUser;
+    
+      const handleLogout = () => {
+        auth.signOut();
+        navigate("/login");
+      };
+    const favorites = useSelector((state) => state.books.favorites || []);
 
     return (
         <div>
@@ -21,14 +29,18 @@ const Navbar = () => {
                     <div className="icons">
                         <Link to="/favorites">
                             <FaHeart />
-                            <span>{favorites.length}</span> {/* ✅ تأكد من وجود العدد */}
+                            <span>{favorites.length}</span>
                         </Link>
-                        <Link to="/cart"><FaCartShopping /></Link>
 
-                        {/* ✅ هنا المشكلة - يجب أن يكون الأيقونة داخل `Link` مباشرة */}
-                        <Link to="/login">
-                            <FaUser className="user-btn" />
-                        </Link>
+                        {user ? (
+                            < div onClick={handleLogout}className="logout-btn">
+                                <FaSignOutAlt />
+                            </div>
+                        ) : (
+                            <Link to="/login">
+                                <FaUser className="user-btn" />
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>
