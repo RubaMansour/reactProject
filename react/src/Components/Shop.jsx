@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { FaSearch, FaBookmark } from "react-icons/fa";
+import { FaSearch, FaBookmark,FaSpinner } from "react-icons/fa";
 import { getBooks, addFavorite } from "../redux/future/booksSlice";
-import Category from "./Category";
+
 
 const MAX_BOOKS_COUNT = 12;
 
@@ -59,22 +59,29 @@ const Shop = () => {
 
     return (
         <>
-         <div className="header_two">
-         <div className="header_on">
-            <form className="search-form" onSubmit={handleSearch}>
-                <input type="search" id="search-box" placeholder="Search here..." ref={searchTerm} />
-                <label htmlFor="search-box">
-                    <FaSearch />
-                </label>
-            </form>
-            </div>
-                 </div>
-            
+      <header>
+    <div className="header-container">
+        <form className="search-form" onSubmit={handleSearch}>
+            <input type="search" id="search-box" placeholder="Search here..." ref={searchTerm} />
+            <label htmlFor="search-box" onClick={handleSearch}>
+                <FaSearch />
+            </label>
+        </form>
 
-          
-            <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+        <div className="category-dropdown">
+            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                {["All", "Fiction", "History", "Science", "Technology", "Romance", "Mystery"].map((name, index) => (
+                    <option key={index} value={name === "All" ? "" : name}>
+                        {name}
+                    </option>
+                ))}
+            </select>
+        </div>
+    </div>
+</header>
 
-            {isLoading && <p>Loading...</p>}
+
+            {isLoading && <p className="loading"><FaSpinner /></p>}
             {errorMsg && <p>{errorMsg}</p>}
 
             <div className="books-grid">

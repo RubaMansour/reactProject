@@ -4,7 +4,6 @@ import Home from "./Components/Home";
 import Navbar from "./Components/Navbar";
 import Favorites from "./Components/Favorites";
 import Shop from "./Components/Shop";
-
 import Register from "./Components/Register";
 import Login from "./Components/Login";
 
@@ -29,7 +28,7 @@ const AppRouter = () => {
       <Navbar /> 
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
@@ -37,6 +36,7 @@ const AppRouter = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<profile />} />
           <Route path="*" element={<Navigate to="/" />} />
+          
         </Routes>
         <ToastContainer />
       </div>

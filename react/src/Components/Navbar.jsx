@@ -19,9 +19,9 @@ const Navbar = () => {
         <div>
             <header className="header">
                 <div className="header_one">
-                    <Link to="/" className="logo">book</Link>
+                    <Link to="/" className="logo"> <img  src="logo2.png"/></Link>
                     <nav className="navbar">
-                        <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>Home</NavLink>
+                        <NavLink to="/Home" className={({ isActive }) => isActive ? "active" : ""}>Home</NavLink>
                         <NavLink to="/shop" className={({ isActive }) => isActive ? "active" : ""}>Shop</NavLink>
                         <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>Contact</NavLink>
                     </nav>
@@ -46,10 +46,10 @@ const Navbar = () => {
             </header>
 
             <div className="bottom-navbar">
-                <NavLink to="/"> <FaHome /> </NavLink>
-                <NavLink to="/shop"> <FaList /> </NavLink>
+                <NavLink to="/Home"> <FaHome /> </NavLink>
+                <NavLink to="/shop"> <FaStore /> </NavLink>
                 <NavLink to="/categories"> <FaTags /> </NavLink>
-                <NavLink to="/store"> <FaStore /> </NavLink>
+               
             </div>
         </div>
     );

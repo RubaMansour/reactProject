@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "./firebase";
-import { setDoc, doc } from "firebase/firestore";  // ✅ إضافة الاستيراد المفقود
+import { setDoc, doc } from "firebase/firestore";  
 import { toast } from "react-toastify";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Logged in successfully!", { position: "top-center" });
-      navigate("/shop");
+      navigate("/Home");
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     }
@@ -39,9 +40,9 @@ const Login = () => {
         toast.success("User logged in Successfully", { position: "top-center" });
       }
 
-      navigate("/shop");
+      navigate("/Home");
     } catch (error) {
-      console.error("Google Login Error:", error); // ✅ طباعة الخطأ في Console لفهم السبب
+      console.error("Google Login Error:", error); 
       toast.error("Failed to sign in with Google.", { position: "top-center" });
     }
     
@@ -65,7 +66,7 @@ const Login = () => {
         </button>
 
         <p className="register-link">
-          Not registered? <a href="/register">Sign Up</a>
+          Not registered? <Link to="/register">Sign Up</Link>
         </p>
       </div>
     </div>

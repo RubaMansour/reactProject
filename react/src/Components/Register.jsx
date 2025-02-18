@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "./firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Register = () => {
@@ -32,7 +32,7 @@ const Register = () => {
         position: "top-center",
       
       });
-      navigate ("/profile");
+      navigate ("/Home");
     } catch (error) {
       toast.error(error.message, { position: "bottom-center" });
     }
@@ -52,7 +52,7 @@ const Register = () => {
         </form>
 
         <p className="register-link">
-          Already registered? <a href="/login">Login</a>
+          Already registered? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

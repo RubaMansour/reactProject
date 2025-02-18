@@ -12,12 +12,12 @@ const Favorites = () => {
     };
 
     return (
-        <div className="favorites-container">
-            <h2>Books in Your Wishlist</h2>
+        <div >
+            <h2 className="info">Books in Your Wishlist</h2>
             {favorites.length === 0 ? (
-                <p>No books in your wishlist yet.</p>
+                <p className="info">No books in your wishlist yet.</p>
             ) : (
-                <div className="favorites-list">
+                <div className="favorites-list favorites-container">
                     {favorites.map((book) => (
                         <div key={book.id} className="favorite-book">
                             <div className="book-details">
