@@ -6,9 +6,9 @@ import Favorites from "./Components/Favorites";
 import Shop from "./Components/Shop";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
-
 import Profile from "./Components/profile"; 
 import { auth } from "./Components/firebase";
+import BookDetails from "./Components/BookDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,7 +25,7 @@ const AppRouter = () => {
 
   return (
     <Router>
-      <Navbar /> 
+    
       <div className="App">
         <Routes>
           <Route path="/Home" element={<Home />} />
@@ -35,7 +35,8 @@ const AppRouter = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<profile />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/Home" />} />
+          <Route path="/book/:id" element={<BookDetails />} />
           
         </Routes>
         <ToastContainer />

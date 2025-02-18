@@ -1,56 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookDetails } from "../redux/future/booksSlice";  // تأكد من أنه يوجد لديك أكشن لهذا
+import { FaBackspace ,FaSpinner} from "react-icons/fa";
+import Navbar from "./Navbar";
 
-const BookDetail = () => {
-    const { bookId } = useParams();  // جلب معرف الكتاب من الـ URL
-    const dispatch = useDispatch();
-    const navigate = useNavigate();  // للحصول على دالة التوجيه
-    const { data, isLoading, errorMsg } = useSelector((state) => state.books);
+const BookDetails = () => {
+  const { id } = useParams(); 
+  const [book, setBook] = useState(null); 
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.books);
 
-    // جلب تفاصيل الكتاب عند تحميل الصفحة
-    useEffect(() => {
-        dispatch(getBookDetails(bookId));
-    }, [bookId, dispatch]);
+  useEffect(() => {
+    const book = data.items.find((item) => item.id === id);
+    setBook(book); 
+  }, [id, data.items]);
 
-    const book = data?.items?.[0]; // نفترض أنه فقط كتاب واحد سيتم جلبه
+  const navigate = useNavigate(); 
 
-    if (isLoading) return <div>Loading...</div>;
-    if (errorMsg) return <div>{errorMsg}</div>;
+  
+  if (!book) return<p className="loading"><FaSpinner /></p>;
+  const buyLink = book.saleInfo?.buyLink;
 
-    return (
-        <div className="book-detail-container">
-            {book && (
-                <div className="book-detail">
-                    <div className="book-image-container">
-                        <img
-                            src={book.volumeInfo.imageLinks?.thumbnail}
-                            alt={book.volumeInfo.title}
-                            className="book-image"
-                        />
-                    </div>
-                    <div className="book-info">
-                        <h1>{book.volumeInfo.title}</h1>
-                        <h3>by {book.volumeInfo.authors?.join(", ")}</h3>
-                        <p><strong>Publisher:</strong> {book.volumeInfo.publisher}</p>
-                        <p><strong>Pages:</strong> {book.volumeInfo.pageCount}</p>
-                        <p><strong>Category:</strong> {book.volumeInfo.categories?.join(", ")}</p>
-                        <p><strong>Published:</strong> {book.volumeInfo.publishedDate}</p>
+  return (
+    <>
 
-                        <div className="book-description">
-                            <h3>Description:</h3>
-                            <p>{book.volumeInfo.description}</p>
-                        </div>
-
-                        <button className="back-button" onClick={() => navigate(-1)}>
-                            Back
-                        </button>
-                    </div>
-                </div>
-            )}
+    <div className="book-details">
+      <div className="back-button" onClick={() => navigate("/shop")}><FaBackspace /></div>
+      
+      <div className="book-info">
+        <div className="book-image-container">
+          <img
+            src={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150'}
+            alt={book.volumeInfo.title}
+            className="book-image"
+          />
         </div>
-    );
+
+        <div className="book-text-info">
+          <h2 className="book-title">{book.volumeInfo.title}</h2>
+          <p><strong>Authors:</strong> {book.volumeInfo.authors?.join(", ")}</p>
+          <p><strong>Publisher:</strong> {book.volumeInfo.publisher}</p>
+          <p><strong>Published Date:</strong> {book.volumeInfo.publishedDate}</p>
+          <p><strong>Page Count:</strong> {book.volumeInfo.pageCount}</p>
+          <p><strong>Category:</strong> {book.volumeInfo.categories?.join(", ")}</p>
+
+          <div className="book-description">
+            <h3>Description:</h3>
+            <p>{book.volumeInfo.description || "No description available."}</p>
+          </div>
+
+         
+          {buyLink ? (
+            <a href={buyLink} target="_blank" rel="noopener noreferrer">
+              <button className="add-to-wishlist">Buy Now</button>
+            </a>
+          ) : (
+            <button className="add-to-wishlist" disabled>Not Available for Purchase</button>
+          )}
+        </div>
+      </div>
+    </div>
+    </>
+  );
 };
 
-export default BookDetail;
+export default BookDetails;

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 import { FaSearch, FaBookmark,FaSpinner } from "react-icons/fa";
 import { getBooks, addFavorite } from "../redux/future/booksSlice";
 
@@ -59,6 +60,7 @@ const Shop = () => {
 
     return (
         <>
+          <Navbar /> 
       <header>
     <div className="header-container">
         <form className="search-form" onSubmit={handleSearch}>

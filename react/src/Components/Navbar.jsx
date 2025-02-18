@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { FaHeart, FaUser, FaHome, FaList, FaTags, FaStore,FaSignOutAlt } from "react-icons/fa";
+import { FaHeart, FaUser, FaHome, FaBookmark, FaTags, FaStore,FaSignOutAlt } from "react-icons/fa";
 import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ const Navbar = () => {
 
                     <div className="icons">
                         <Link to="/favorites">
-                            <FaHeart />
+                            <FaBookmark />
                             <span>{favorites.length}</span>
                         </Link>
 
