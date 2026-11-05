@@ -44,21 +44,37 @@
 
     bookstore-app/
 ├── public/
+
 │   ├── index.html
+
 │   └── ...
+
 ├── src/
+
 │   ├── components/
+
 │   │   ├── Navbar.js
+
 │   │   ├── Home.js
+
 │   │   └── ...
+
 │   ├── redux/
+
 │   │   └── booksSlice.js
+
 │   ├── App.js
+
 │   ├── firebase.js
+
 │   └── index.js
+
 ├── .gitignore
+
 ├── package.json
+
 ├── README.md
+
 └── ...
 
 # How the App Works
