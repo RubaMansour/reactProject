@@ -44,6 +44,7 @@
 
     bookstore-app/
 ├── public/
+
 │   ├── index.html
 │   └── ...
 ├── src/
